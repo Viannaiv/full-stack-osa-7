@@ -1,1 +1,1 @@
-# full-stack-osa-7
+# Osan 7 tehtävät
