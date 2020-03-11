@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 
-const useField = (type) => {
+const useField = type => {
   const [value, setValue] = useState('')
 
   const onChange = (event) => {
@@ -17,16 +17,31 @@ const useField = (type) => {
   }
 }
 
-const useResource = (baseUrl) => {
+const useResource = baseUrl => {
   const [resources, setResources] = useState([])
 
-  // ...
+  useEffect(() => {
+    axios
+      .get(baseUrl)
+      .then(res => {
+        setResources(res.data)
+      })
+  }, [baseUrl])
 
-  const create = (resource) => {
-    // ...
+  const getAll = async () => {
+    const res = await axios.get(baseUrl)
+    setResources(res.data)
+    return res.data
+  }
+
+  const create = async resource => {
+    const res = await axios.post(baseUrl, resource)
+    setResources(resources.concat(res.data))
+    return res.data
   }
 
   const service = {
+    getAll,
     create
   }
 
